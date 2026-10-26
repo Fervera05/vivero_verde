@@ -1,0 +1,294 @@
+/**
+ * VIVERO VERDE — ADAPTACIÓN RESPONSIVE (MOBILE-FIRST)
+ *
+ * Puntos de interrupción probados:
+ * 320px, 375px, 390px, 430px, 768px, 1024px, 1440px
+ */
+
+/* ==========================================================================
+   TABLETS Y PANTALLAS MEDIANAS (Max-width: 992px)
+   ========================================================================== */
+@media (max-width: 992px) {
+  :root {
+    --header-height: 68px;
+  }
+
+  .section {
+    padding-top: var(--spacing-2xl);
+    padding-bottom: var(--spacing-2xl);
+  }
+
+  /* Navegación móvil */
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    background-color: var(--color-warm-white);
+    padding: calc(var(--header-height) + 1.5rem) 2rem 2rem;
+    box-shadow: var(--shadow-drawer);
+    z-index: 999;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav--open {
+    transform: translateX(0);
+  }
+
+  .nav__list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .nav__link {
+    font-size: 1.15rem;
+    font-weight: 600;
+    width: 100%;
+    padding: 0.5rem 0;
+  }
+
+  /* Hero responsive */
+  .hero {
+    padding-top: calc(var(--header-height) + var(--spacing-lg));
+  }
+
+  .hero__container {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+    text-align: center;
+  }
+
+  .hero__content {
+    max-width: 100%;
+  }
+
+  .hero__actions {
+    justify-content: center;
+  }
+
+  .hero__features {
+    justify-items: center;
+  }
+
+  .hero__media {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .hero__floating-badge {
+    left: 10px;
+    bottom: 16px;
+  }
+
+  /* Sección Nosotros */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+  }
+
+  .about-media {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Contacto */
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+  }
+
+  /* Footer */
+  .footer__container {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .footer__brand-col {
+    grid-column: span 2;
+  }
+}
+
+/* ==========================================================================
+   DISPOSITIVOS MÓVILES (Max-width: 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+    --spacing-3xl: 3.5rem;
+  }
+
+  .container {
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+
+  /* Hero */
+  .hero__features {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .hero-feature {
+    justify-content: center;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+  }
+
+  /* Controles de catálogo */
+  .catalog-controls {
+    padding: var(--spacing-md);
+  }
+
+  .catalog-controls__top {
+    grid-template-columns: 1fr;
+  }
+
+  .sort-box {
+    width: 100%;
+  }
+
+  .sort-box__select {
+    width: 100%;
+  }
+
+  .catalog-controls__filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-chips {
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .filter-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .price-range-custom {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .price-input {
+    flex: 1 1 40%;
+  }
+
+  .btn-filter-apply {
+    width: 100%;
+  }
+
+  /* Catálogo: 2 columnas en móviles medianos (375px a 768px) */
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+  }
+
+  .product-card__body {
+    padding: 0.85rem;
+  }
+
+  .product-card__title {
+    font-size: 1rem;
+  }
+
+  .product-card__price {
+    font-size: 0.95rem;
+  }
+
+  .product-card__variants {
+    padding: 0.45rem;
+  }
+
+  .variant-pill {
+    font-size: 0.6875rem;
+    padding: 0.2rem 0.45rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  /* Panel lateral del carrito en móvil */
+  .cart-drawer {
+    max-width: 100%;
+  }
+
+  .about-media__inset {
+    right: -10px;
+    bottom: -15px;
+    width: 48%;
+  }
+
+  /* Footer en móvil */
+  .footer__container {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__brand-col {
+    grid-column: span 1;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+}
+
+/* ==========================================================================
+   PANTALLAS EXTRA PEQUEÑAS (Max-width: 420px y 320px)
+   ========================================================================== */
+@media (max-width: 420px) {
+  /* En pantallas muy angostas (como 320px a 390px), 1 columna garantiza legibilidad óptima */
+  .catalog-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .hero__title {
+    font-size: 2.1rem;
+  }
+
+  .hero__floating-badge {
+    position: static;
+    margin-top: 1rem;
+    max-width: 100%;
+  }
+
+  .contact-card-box {
+    padding: var(--spacing-lg);
+  }
+
+  .cart-item {
+    grid-template-columns: 56px 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* ==========================================================================
+   PANTALLAS MUY GRANDES (Min-width: 1440px)
+   ========================================================================== */
+@media (min-width: 1440px) {
+  :root {
+    --container-max: 1320px;
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

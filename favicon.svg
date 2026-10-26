@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="16" fill="#234B3A"/>
+  <!-- Botanical leaf and blossom branch -->
+  <path d="M32 50 C32 36 34 22 44 14 C36 18 28 26 28 36 C28 42 30 47 32 50 Z" fill="#A8BFA3"/>
+  <path d="M30 38 C24 35 18 36 15 41 C20 42 26 41 30 38 Z" fill="#A8BFA3" opacity="0.9"/>
+  <path d="M33 28 C38 24 43 25 47 28 C45 31 39 31 33 28 Z" fill="#E9B7BD"/>
+  <circle cx="34" cy="20" r="3" fill="#E9B7BD"/>
+</svg>

@@ -1,0 +1,104 @@
+/**
+ * VIVERO VERDE — ANIMACIONES Y MICROINTERACCIONES
+ *
+ * Transiciones sutiles, revelado con Intersection Observer,
+ * microinteracciones en botones y tarjetas, respetando
+ * estrictamente prefers-reduced-motion.
+ */
+
+/* ==========================================================================
+   1. ANIMACIONES DE APARICIÓN AL HACER SCROLL (INTERSECTION OBSERVER)
+   ========================================================================== */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Retardos escalonados para listas de elementos */
+.reveal-stagger:nth-child(1) { transition-delay: 0.05s; }
+.reveal-stagger:nth-child(2) { transition-delay: 0.1s; }
+.reveal-stagger:nth-child(3) { transition-delay: 0.15s; }
+.reveal-stagger:nth-child(4) { transition-delay: 0.2s; }
+
+/* ==========================================================================
+   2. KEYFRAMES
+   ========================================================================== */
+
+/* Rebote sutil para el contador del carrito al añadir productos */
+@keyframes badgeBounce {
+  0% {
+    transform: scale(0.6);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Desvanecimiento de entrada suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Desplazamiento sutil hacia arriba */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulso suave para el botón de WhatsApp principal */
+@keyframes subtlePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(35, 75, 58, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(35, 75, 58, 0);
+  }
+}
+
+/* ==========================================================================
+   3. PREFERS REDUCED MOTION (ACCESIBILIDAD)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .hero__image,
+  .product-card,
+  .product-card__image {
+    transition: none !important;
+    transform: none !important;
+  }
+}
