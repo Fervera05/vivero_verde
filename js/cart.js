@@ -292,7 +292,7 @@ const Cart = (() => {
                 loading="lazy"
                 width="72"
                 height="72"
-                onerror="this.onerror=null; this.src='${generateBotanicalPlaceholder(item.name)}';"
+                onerror="window.handleImageError(this, '${item.name.replace(/'/g, "\\'")}');"
               />
             </div>
             <div class="cart-item__content">

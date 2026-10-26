@@ -209,12 +209,13 @@
           <div class="hero__media reveal-on-scroll">
             <div class="hero__image-card">
               <img
-                src="https://images.unsplash.com/photo-1587637885131-8b08567433d6?auto=format&fit=crop&w=800&q=85"
+                src="assets/images/hero_botanical.jpg"
                 alt="Composición floral de flores en floración en Vivero Verde"
                 class="hero__image"
                 width="640"
                 height="760"
                 fetchpriority="high"
+                onerror="window.handleImageError(this, 'Vivero Verde Botánica');"
               />
               <div class="hero__floating-badge">
                 <div class="hero__floating-badge-icon" aria-hidden="true">
@@ -373,20 +374,22 @@
             <div class="about-media reveal-on-scroll">
               <div class="about-media__main">
                 <img
-                  src="https://images.unsplash.com/photo-1592150621744-aca64f48394a?auto=format&fit=crop&w=800&q=80"
+                  src="assets/images/about_main.jpg"
                   alt="Cultivo y cuidado botánico en Vivero Verde"
                   loading="lazy"
                   width="540"
                   height="600"
+                  onerror="window.handleImageError(this, 'Cultivo Botánico');"
                 />
               </div>
               <div class="about-media__inset">
                 <img
-                  src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80"
+                  src="assets/images/about_inset.jpg"
                   alt="Detalle de floración cuidada y fresca"
                   loading="lazy"
                   width="260"
                   height="260"
+                  onerror="window.handleImageError(this, 'Floración Cuidada');"
                 />
               </div>
             </div>

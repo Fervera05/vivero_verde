@@ -35,12 +35,14 @@ const VIVERO_CONFIG = {
 
 /**
  * Función generadora de SVG placeholder elegante en caso de fallo de red o imagen no disponible.
- * Respeta la paleta botánica del vivero (#234B3A, #F8F6F0, #A8BFA3).
+ * Respeta la paleta botánica del vivero (#234B3A, #F8F6F0, #A8BFA3) y no utiliza comillas
+ * anidadas para evitar errores de sintaxis en atributos HTML.
  *
  * @param {string} name - Nombre de la planta
  * @returns {string} Data URI con el SVG codificado
  */
 function generateBotanicalPlaceholder(name) {
+  const safeName = (name || 'Planta Floral').replace(/[<>&"']/g, '');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450">
     <rect width="600" height="450" fill="#F8F6F0"/>
     <circle cx="300" cy="180" r="110" fill="#E9B7BD" opacity="0.25"/>
@@ -51,11 +53,24 @@ function generateBotanicalPlaceholder(name) {
       <path d="M0,20 C-18,5 -35,7 -45,25 C-28,25 -12,18 0,20 Z" fill="#A8BFA3"/>
       <circle cx="0" cy="-25" r="7" fill="#E9B7BD"/>
     </g>
-    <text x="300" y="320" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="22" font-weight="600" fill="#234B3A" text-anchor="middle" letter-spacing="0.5">${name}</text>
-    <text x="300" y="350" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#5F7567" text-anchor="middle" letter-spacing="1.5">VIVERO VERDE BOTÁNICA</text>
+    <text x="300" y="320" font-family="Plus Jakarta Sans, system-ui, sans-serif" font-size="22" font-weight="600" fill="#234B3A" text-anchor="middle" letter-spacing="0.5">${safeName}</text>
+    <text x="300" y="350" font-family="Plus Jakarta Sans, system-ui, sans-serif" font-size="13" font-weight="400" fill="#5F7567" text-anchor="middle" letter-spacing="1.5">VIVERO VERDE BOTANICA</text>
   </svg>`;
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg).replace(/'/g, '%27')}`;
 }
+
+/**
+ * Manejador global robusto de error de imagen para evitar iconos rotos.
+ *
+ * @param {HTMLImageElement} img
+ * @param {string} [name]
+ */
+function handleImageError(img, name) {
+  if (!img) return;
+  img.onerror = null;
+  img.src = generateBotanicalPlaceholder(name || img.alt || 'Planta Floral');
+}
+window.handleImageError = handleImageError;
 
 /**
  * Formatea un monto numérico al estándar paraguayo de guaraníes (ej. 15000 -> "₲ 15.000").
@@ -85,7 +100,7 @@ const PRODUCTS = [
     name: 'Cinecia',
     prices: [20000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1596724817796-fbcfd23d8c1c?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/cinecia.jpg',
     alt: 'Flores de Cinecia en plena floración'
   },
   {
@@ -93,7 +108,7 @@ const PRODUCTS = [
     name: 'Dipladenia',
     prices: [35000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/dipladenia.jpg',
     alt: 'Planta ornamental Dipladenia con flores acampanadas'
   },
   {
@@ -101,7 +116,7 @@ const PRODUCTS = [
     name: 'Gladiolo',
     prices: [15000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/gladiolo.jpg',
     alt: 'Espigas florales de Gladiolo en tonos vibrantes'
   },
   {
@@ -109,7 +124,7 @@ const PRODUCTS = [
     name: 'Clavel de onza',
     prices: [15000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1589244159943-460088ed5c92?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/clavel-de-onza.jpg',
     alt: 'Delicado Clavel de onza con pétalos festoneados'
   },
   {
@@ -117,7 +132,7 @@ const PRODUCTS = [
     name: 'Clavel pompón',
     prices: [10000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1567696911980-2eed69a46042?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/clavel-pompon.jpg',
     alt: 'Clavel pompón de pétalos tupidos y compactos'
   },
   {
@@ -125,7 +140,7 @@ const PRODUCTS = [
     name: 'Alegría del hogar',
     prices: [15000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1533616688419-b7a585564566?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/alegria-del-hogar.jpg',
     alt: 'Alegría del hogar con flores vivas ideales para semisombra'
   },
   {
@@ -133,7 +148,7 @@ const PRODUCTS = [
     name: 'Lavio de señorita',
     prices: [5000, 10000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1586968293593-3fa84c31168b?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/lavio-de-senorita.jpg',
     alt: 'Flores tubulares de Lavio de señorita'
   },
   {
@@ -141,7 +156,7 @@ const PRODUCTS = [
     name: 'Kalanchoe',
     prices: [10000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/kalanchoe.jpg',
     alt: 'Ramilletes florales de Kalanchoe en maceta'
   },
   {
@@ -149,7 +164,7 @@ const PRODUCTS = [
     name: 'Azalea',
     prices: [15000, 30000, 60000, 80000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1587637885131-8b08567433d6?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/azalea.jpg',
     alt: 'Arbusto de Azalea cargado de flores radiantes'
   },
   {
@@ -157,7 +172,7 @@ const PRODUCTS = [
     name: 'Verbena',
     prices: [15000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1598880940371-c756e015fea1?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/verbena.jpg',
     alt: 'Inflorescencias de Verbena en tonos púrpuras y rosas'
   },
   {
@@ -165,7 +180,7 @@ const PRODUCTS = [
     name: 'Lirio perfumado',
     prices: [20000, 60000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1533038590840-1cde6e668a91?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/lirio-perfumado.jpg',
     alt: 'Elegante flor de Lirio perfumado de gran aroma'
   },
   {
@@ -173,7 +188,7 @@ const PRODUCTS = [
     name: 'Rosa',
     prices: [8000, 10000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/rosa.jpg',
     alt: 'Clásica flor de Rosa de pétalos aterciopelados'
   },
   {
@@ -181,7 +196,7 @@ const PRODUCTS = [
     name: 'Begonia',
     prices: [10000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1616690710400-a16d146927c5?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/begonia.jpg',
     alt: 'Begonia ornamental con follaje decorativo y flores'
   },
   {
@@ -189,7 +204,7 @@ const PRODUCTS = [
     name: 'Girasol',
     prices: [10000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/girasol.jpg',
     alt: 'Girasol vibrante con sus pétalos dorados al sol'
   },
   {
@@ -197,7 +212,7 @@ const PRODUCTS = [
     name: 'Santa Rita',
     prices: [15000, 20000, 40000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1558236714-911a2f30894f?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/santa-rita.jpg',
     alt: 'Enredadera de Santa Rita con brácteas color fucsia intenso'
   },
   {
@@ -205,7 +220,7 @@ const PRODUCTS = [
     name: 'Dalia',
     prices: [10000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/dalia.jpg',
     alt: 'Flor de Dalia simétrica con pétalos geométrica y delicadamente dispuestos'
   },
   {
@@ -213,7 +228,7 @@ const PRODUCTS = [
     name: 'Flor de dura nacional',
     prices: [10000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1592150621744-aca64f48394a?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/flor-de-dura-nacional.jpg',
     alt: 'Flor de dura nacional resistente al sol con pétalos rosados'
   },
   {
@@ -221,7 +236,7 @@ const PRODUCTS = [
     name: 'Flor de dura brasilera',
     prices: [15000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1590452366185-3e284004944b?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/flor-de-dura-brasilera.jpg',
     alt: 'Flor de dura brasilera de floración abundante y brillante'
   },
   {
@@ -229,7 +244,7 @@ const PRODUCTS = [
     name: 'Jazmín de leche',
     prices: [15000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/jazmin-de-leche.jpg',
     alt: 'Jazmín de leche trepador con flores blancas estrelladas y perfume dulce'
   },
   {
@@ -237,7 +252,7 @@ const PRODUCTS = [
     name: 'Joya del jardín',
     prices: [10000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/joya-del-jardin.jpg',
     alt: 'Flores multicolores de Joya del jardín'
   },
   {
@@ -245,7 +260,7 @@ const PRODUCTS = [
     name: 'Hortensia',
     prices: [15000, 20000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/hortensia.jpg',
     alt: 'Inflorescencia esférica de Hortensia'
   },
   {
@@ -253,7 +268,7 @@ const PRODUCTS = [
     name: 'Arándano',
     prices: [70000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1498557850523-fd3d118b962e?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/arandano.jpg',
     alt: 'Planta de Arándano con frutos frescos y hojas verdes'
   },
   {
@@ -261,7 +276,7 @@ const PRODUCTS = [
     name: 'Coco brasilero',
     prices: [70000, 200000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/coco-brasilero.jpg',
     alt: 'Palmera de Coco brasilero con frondas plumosas'
   },
   {
@@ -269,7 +284,7 @@ const PRODUCTS = [
     name: 'Gardenia',
     prices: [8000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/gardenia.jpg',
     alt: 'Flor de Gardenia blanca de intensa y exquisita fragancia'
   },
   {
@@ -277,7 +292,7 @@ const PRODUCTS = [
     name: 'Pensamiento',
     prices: [5000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/pensamiento.jpg',
     alt: 'Flores de Pensamiento de pétalos aterciopelados bicolores'
   },
   {
@@ -285,7 +300,7 @@ const PRODUCTS = [
     name: 'Clavelina',
     prices: [5000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/clavelina.jpg',
     alt: 'Flores de Clavelina con orlas dentadas'
   },
   {
@@ -293,7 +308,7 @@ const PRODUCTS = [
     name: 'Conejito',
     prices: [5000],
     unitLabel: '',
-    image: 'https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/conejito.jpg',
     alt: 'Espigas de flores de Conejito en floración'
   },
   {
@@ -301,7 +316,7 @@ const PRODUCTS = [
     name: 'Botoncito',
     prices: [20000],
     unitLabel: 'la docena',
-    image: 'https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?auto=format&fit=crop&w=700&q=80',
+    image: 'assets/images/botoncito.jpg',
     alt: 'Flores de Botoncito vendidas por docena'
   }
 ];

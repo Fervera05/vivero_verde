@@ -163,7 +163,7 @@ const CatalogFilters = (() => {
             loading="lazy"
             width="400"
             height="320"
-            onerror="this.onerror=null; this.src='${generateBotanicalPlaceholder(product.name)}';"
+            onerror="window.handleImageError(this, '${product.name.replace(/'/g, "\\'")}');"
           />
           ${
             product.hasVariants
@@ -433,7 +433,23 @@ const CatalogFilters = (() => {
       btn.addEventListener('click', resetFilters);
     });
 
-    // 6. Delegación de eventos en el grid de catálogo (variantes, agregar al pedido, consulta)
+    // 6. Manejo global y automático de fallback de imágenes (useCapture = true)
+    if (domElements.gridEl) {
+      domElements.gridEl.addEventListener(
+        'error',
+        (e) => {
+          if (e.target && e.target.tagName === 'IMG') {
+            const img = e.target;
+            const card = img.closest('.product-card');
+            const productName = card?.querySelector('.product-card__title')?.textContent || img.alt || 'Planta Floral';
+            window.handleImageError(img, productName);
+          }
+        },
+        true
+      );
+    }
+
+    // 7. Delegación de eventos en el grid de catálogo (variantes, agregar al pedido, consulta)
     if (domElements.gridEl) {
       domElements.gridEl.addEventListener('click', (e) => {
         // A. Clic en píldora de variante
